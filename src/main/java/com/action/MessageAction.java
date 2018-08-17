@@ -2,7 +2,6 @@ package com.action;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.opensymphony.xwork2.ActionSupport;
 import com.po.Message;
 import com.po.User;
@@ -11,7 +10,6 @@ import com.service.IMessageService;
 public class MessageAction extends ActionSupport {
 	Message m;
 	IMessageService messageService;
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
 	List<Message> messageList;
 	User u1;
 	User u2;

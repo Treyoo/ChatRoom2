@@ -1,7 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
-<constant name="struts.devMode" value="true"></constant>
+<!-- 	<constant name="struts.devMode" value="true"></constant> -->
 	<package name="interceptor" extends="struts-default,json-default">
 		<interceptors>
 			<interceptor name="loginInterceptor" class="com.util.interceptor.LoginInterceptor"></interceptor>
@@ -14,24 +16,6 @@
 		<global-results>
 			<result name="deny" type="redirect">/index.jsp</result>
 		</global-results>
-	</package>
-	<package name="messageAction" extends="struts-default,json-default,interceptor">
-		<action name="sendMessage" class="com.action.MessageAction" method="sendMessage">
-			<result type="json"></result>
-		</action>
-		<!-- 安全起见，此action已弃用
-		<action name="queryMessage" class="com.action.MessageAction" method="queryMessage">
-			<result type="json">
-                <param name="root">messageList</param>
-			</result>
-		</action> 
-		-->
-		<action name="queryMessageByUsername" class="com.action.MessageAction" method="queryMessageByUsername">
-			<result type="json">
-				<!--配置转成json的成员变量，其中root是ognl表达式的一部分不能更换-->
-                <param name="root">messageList</param>
-			</result>
-		</action>
 	</package>
 	<package name="signAction" extends="struts-default,json-default">
 		<action name="register" class="com.action.UserAction" method="register">
@@ -51,7 +35,6 @@
 		</action>
 	</package>
 	<package name="userAction" extends="struts-default,json-default,interceptor">
-		
 		<action name="queryOnline" class="com.action.UserAction" method="queryOnline">
 			<result type="json">
 				<param name="root">userList</param>
@@ -67,6 +50,16 @@
 				<param name="root">u</param>
 			</result>
 		</action>
-
 	</package>
-</struts>    
+	<package name="messageAction" extends="struts-default,json-default,interceptor">
+		<action name="sendMessage" class="com.action.MessageAction" method="sendMessage">
+			<result type="json"></result>
+		</action>
+		<action name="queryMessageByUsername" class="com.action.MessageAction" method="queryMessageByUsername">
+			<result type="json">
+				<!--配置转成json的成员变量，其中root是ognl表达式的一部分不能更换-->
+                <param name="root">messageList</param>
+			</result>
+		</action>
+	</package>
+</struts>

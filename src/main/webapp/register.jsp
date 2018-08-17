@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'register.jsp' starting page</title>
+    <title>注册</title>
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="js/register.js"></script>
 	<link href="CSS/index.css" rel="stylesheet">
