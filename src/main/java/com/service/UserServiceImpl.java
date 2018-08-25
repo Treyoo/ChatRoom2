@@ -2,6 +2,7 @@ package com.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.dao.IUserDao;
 import com.opensymphony.xwork2.ActionContext;
@@ -25,9 +26,9 @@ public class UserServiceImpl implements IUserService {
 	public boolean login(User u) {
 		// TODO Auto-generated method stub
 		List<User> list=userDao.queryUser(u);
-		if(list.size()>0){
+		if(list.size()>0&&!getOnlineUsername().contains(list.get(0).getUsername())){//若登录信息正确且未登录
 			Map<String,Object> session=ActionContext.getContext().getSession();
-			session.put("login", list.get(0));//若登录成功，把用户对象保存到session中
+			session.put("login", list.get(0));//登录成功，把用户对象保存到session中
 			userDao.updateUserStatus(list.get(0), true);//更新用户为在线状态
 			return true;
 		}
@@ -54,6 +55,11 @@ public class UserServiceImpl implements IUserService {
 	public User getUserInfoByName(String username) {
 		// TODO Auto-generated method stub
 		return userDao.getUserInfoByName(username);
+	}
+	@Override
+	public Set<String> getOnlineUsername() {
+		// TODO Auto-generated method stub
+		return WebSocketServer.getWebSocketMap().keySet();
 	}
 
 

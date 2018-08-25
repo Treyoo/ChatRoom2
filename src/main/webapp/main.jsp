@@ -25,7 +25,15 @@
 			newlineTag:'br',
 			items : ['source','fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
 					'italic', 'underline','removeformat', 'clearhtml','|','insertorderedlist',
-					'insertunorderedlist', '|', 'emoticons', 'image', 'link','|','fullscreen']
+					'insertunorderedlist', '|', 'emoticons', 'image', 'link','|','fullscreen'],
+			afterCreate: function(){//添加Ctrl+Enter发送快捷键
+				K.ctrl(this.edit.doc, 13, function() {//焦点在文本框的情况
+			        sendMsg();
+				});
+				K.ctrl(document, 13, function() {//焦点不在文本框的情况
+			        sendMsg();
+				});
+			}
                 
         });
 	});
@@ -34,13 +42,12 @@
 	//当页面载入后执行的操作
 	window.onload=function(){
 		showOnline();//显示在线用户
-		showContent();//显示聊天内容
-		editor.focus();//编辑器获取焦点
+		//editor.focus();//编辑器获取焦点
 		searchUserEventBinding();//搜索用户输入框事件绑定
 		setDivScroll();//设置聊天内容可见高度可拖拽调整
 	}
-	window.setInterval("showOnline();",5000);//每5秒钟获取一次在线用户列表
-	window.setInterval("showContent();",2000);//每2秒钟获取一次聊天内容
+	//window.setInterval("showOnline();",5000);//每5秒钟获取一次在线用户列表
+	//window.setInterval("showContent();",2000);//每2秒钟获取一次聊天内容
 </script>
 <script type="text/javascript">
 var fromuser="${sessionScope.login.username}";//从session里获取登录的对象，保存到js中备用
@@ -48,10 +55,7 @@ var touser;//聊天对象由用户点击在线用户列表中的用户获取值
 var loginUser="${sessionScope.login}";
 var id="${sessionScope.login.id}";
 </script>
-<style type="text/css">
-	#expander{ width:100%; height:6px; background-color:#999;}
-	#expander:hover{ cursor:n-resize;}
-</style>
+<script type="text/javascript" src="js/websocket.js"></script>
 </head>
 <!-- 顶部 -->
 <table style="width: 778px;height: 152px;border: 0;border-collapse:collapse;margin:0px auto;
@@ -70,11 +74,6 @@ var id="${sessionScope.login.id}";
        			<td><a href="javascript:void(0);" onclick="getUserInfo(fromuser)" class="username">
        			${sessionScope.login.username}</a></td>
        		</tr>
-       		<tr>
-       			<td>聊天对象：</td>
-       			<td><a href="javascript:void(0);" onclick="getUserInfo(touser)" class="username">
-       			<label id="touser"></label></a></td>
-       		</tr>
        	</table>
      </td>
    </tr>
@@ -89,8 +88,7 @@ var id="${sessionScope.login.id}";
      	<div id="online" style="height:540px; overflow: auto;background-color:#F7FDED;"></div>
      </td>
      <td style="width: 613px;vertical-align:top;">
-       <div style="width:613px;height:580px; overflow:auto" id="content">
-       	<img alt="图片不见了" src="images/bg_default.gif" class="mainBg">
+       <div id="content">
        	<div id="expander"></div>
        </div>
      </td>
@@ -108,7 +106,7 @@ var id="${sessionScope.login.id}";
      <tr>
        
        <td style="text-align:right;">
-         <input type="button" value="发送" onClick="send()">
+         <input type="button" value="发送(Ctrl+Enter)" onClick="sendMsg()" style="width: 100%;height: 30px;">
        </td>
      </tr>
      <tr>
@@ -124,8 +122,7 @@ var id="${sessionScope.login.id}";
     <div id="userinfobox">
         用户信息<hr />
         <div id="userinfo"></div>
-        <div class="btn_div">
-            <input type="button" value="发送消息" id="chatwith" onclick="chatwith()"/>
+        <div class="btn_div" style="float: right;">
             <input type="button" class="concel" value="关闭" onclick="infobox(0)" />
         </div>
          

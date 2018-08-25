@@ -1,6 +1,7 @@
 package com.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.po.User;
 
@@ -28,4 +29,10 @@ public interface IUserService {
 	 * @return User对象
 	 */
 	public User getUserInfoByName(String username);
+	
+	/**
+	 * 获取所有在线用户的用户名
+	 * @return List&lt;String&gt;
+	 */
+	public Set<String> getOnlineUsername();
 }
