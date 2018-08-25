@@ -4,6 +4,8 @@
     "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
 <!-- 	<constant name="struts.devMode" value="true"></constant> -->
+	<!--不拦截ws请求 -->
+	<constant name="struts.action.excludePattern" value="/ws/.*,ws://.*"></constant>
 	<package name="interceptor" extends="struts-default,json-default">
 		<interceptors>
 			<interceptor name="loginInterceptor" class="com.util.interceptor.LoginInterceptor"></interceptor>
@@ -48,6 +50,11 @@
 		<action name="getUserInfoByName" class="com.action.UserAction" method="getUserInfoByName">
 			<result type="json">
 				<param name="root">u</param>
+			</result>
+		</action>
+		<action name="getOnlineUsername" class="com.action.UserAction" method="getOnlineUsername">
+			<result type="json">
+				<param name="root">onlineSet</param>
 			</result>
 		</action>
 	</package>

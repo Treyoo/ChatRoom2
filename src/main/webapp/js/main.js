@@ -25,11 +25,10 @@ function send() {
 /**显示在线用户*/
 function showOnline(){
 	if(fromuser!=""){
-		$.get("queryOnline.action",function(data){
+		$.get("getOnlineUsername.action",function(data){
 			$("#online").html("");
 			$.each(data,function(i,obj){
-				$("#online").append("<div><a href=\"javascript:void(0);\" onclick=\"setTo('"
-						+obj.username+"');showContent();\">"+obj.username+"</a></div>");
+				addOnline(obj);
 			});
 		});
 	}
@@ -54,13 +53,12 @@ function showContent() {
 				}
 			});
 		});
-		//当聊天信息超过一屏时，滚动条移动到最下方
-		if($("#content")[0].scrollTop+$("#content").height()>=$("#content")[0].scrollHeight-150){
-			$("#content").scrollTop($("#content")[0].scrollHeight);
-		}
 	}
 }
-
+/**聊天消息滚动条移动到最下方*/
+function scrollToBottom(){
+	$("#content").scrollTop($("#content")[0].scrollHeight);
+}
 /**设置聊天对象*/
 function setTo(to){
 	touser=to;
@@ -144,16 +142,3 @@ function setDivScroll(){
         }
     });
 }
-
-/**刷新、后退、关闭浏览器都会注销登录状态（这种处理方式待改进）*/
-window.addEventListener("beforeunload", function(e) {
-	var confirmationMessage = '将退出登录状态？';
-	(e || window.event).returnValue = confirmationMessage;// Gecko and Trident
-	return confirmationMessage;// Gecko and WebKit
-	  
-});
-//若beforeunload事件中用户选择了'取消'，unload事件不会触发
-window.addEventListener("unload", function(e) {
-	$.post("logout.action",{"u.id":id});
-});
-

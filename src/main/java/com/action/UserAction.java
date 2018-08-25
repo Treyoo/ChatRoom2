@@ -1,6 +1,7 @@
 package com.action;
 
 import java.util.List;
+import java.util.Set;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.po.User;
@@ -13,6 +14,14 @@ public class UserAction extends ActionSupport {
 	IUserService userService;
 	String info;
 	List<User> userList;
+	Set<String> onlineSet;
+	
+	public Set<String> getOnlineSet() {
+		return onlineSet;
+	}
+	public void setOnlineSet(Set<String> onlineSet) {
+		this.onlineSet = onlineSet;
+	}
 	public List<User> getUserList() {
 		return userList;
 	}
@@ -70,6 +79,11 @@ public class UserAction extends ActionSupport {
 		}else{
 			info="no";
 		}
+		return SUCCESS;
+	}
+	/**获取所有websocket在线用户的用户名*/
+	public String getOnlineUsername(){
+		onlineSet=userService.getOnlineUsername();
 		return SUCCESS;
 	}
 }

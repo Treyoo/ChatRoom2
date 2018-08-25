@@ -26,7 +26,6 @@
       	<td style="text-align:right;">
         	密&nbsp;&nbsp;&nbsp;&nbsp;码：<input type="password" name="u.password" required
         		oninvalid="setCustomValidity('请输入密码');" oninput="setCustomValidity('');">
-        	
         </td>
         <td><label style="color: red;"><s:property value="info"/></label></td>
       </tr>
